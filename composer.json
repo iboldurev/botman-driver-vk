@@ -1,0 +1,50 @@
+{
+    "name": "iboldurev/botman-driver-vk",
+    "description": "VK driver for botman",
+    "keywords": [
+        "Bot",
+        "BotMan",
+        "VK",
+        "VK Community"
+    ],
+    "homepage": "http://github.com/iboldurev/botman-driver-vk",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ivan Boldyrev",
+            "email": "iboldurev@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "botman/botman": "~2.0"
+    },
+    "require-dev": {
+        "botman/studio-addons": "~1.0",
+        "illuminate/contracts": "~5.5.0",
+        "phpunit/phpunit": "~5.0",
+        "mockery/mockery": "dev-master",
+        "ext-curl": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "BotMan\\Drivers\\VK\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "cs": "php-cs-fixer fix"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "BotMan\\Drivers\\VK\\Providers\\VKServiceProvider"
+            ]
+        }
+    }
+}
