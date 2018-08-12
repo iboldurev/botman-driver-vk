@@ -85,10 +85,47 @@ class VkDriver extends HttpDriver implements VerifiesService
     /**
      * @param IncomingMessage $matchingMessage
      * @return \BotMan\BotMan\Interfaces\UserInterface|User
+     * @throws VkException
      */
     public function getUser(IncomingMessage $matchingMessage)
     {
-        return new User($matchingMessage->getSender());
+        $response = $this->sendRequest('users.get', [
+            'user_ids' => $matchingMessage->getSender(),
+            'fields' => 'screen_name',
+        ], $matchingMessage);
+
+        if (!$response && !$response->isOk())
+            throw new VkException('Error get user info.');
+
+        $responseData = json_decode($response->getContent(), true);
+        $profileData = array_get($responseData, 'response.0');
+
+        $id = array_get($profileData, 'id', null);
+        $firstName = array_get($profileData, 'name', null);
+        $lastName = array_get($profileData, 'last_name', null);
+        $userName = array_get($profileData, 'screen_name', null);
+
+        if ($userName === null) {
+            $userName = strlen(trim($firstName . $lastName)) > 0 ? trim($firstName . $lastName) : $id;
+        }
+
+        return new User($matchingMessage->getSender(), $firstName, $lastName, $userName, $profileData);
+    }
+
+    /**
+     * @param IncomingMessage $matchingMessage
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function types(IncomingMessage $matchingMessage)
+    {
+        $parameters = [
+            'type' => 'typing',
+            'user_id' => $matchingMessage->getSender(),
+            'access_token' => $this->config->get('token'),
+            'v' => self::API_VERSION,
+        ];
+
+        return $this->http->post($this->buildApiUrl('messages.setActivity'), [], $parameters);
     }
 
     /**
