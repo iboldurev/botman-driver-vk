@@ -101,7 +101,7 @@ class VkDriver extends HttpDriver implements VerifiesService
         $profileData = array_get($responseData, 'response.0');
 
         $id = array_get($profileData, 'id', null);
-        $firstName = array_get($profileData, 'name', null);
+        $firstName = array_get($profileData, 'first_name', null);
         $lastName = array_get($profileData, 'last_name', null);
         $userName = array_get($profileData, 'screen_name', null);
 
