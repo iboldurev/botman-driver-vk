@@ -17,7 +17,7 @@ use BotMan\BotMan\Messages\Outgoing\OutgoingMessage;
 
 class VkDriver extends HttpDriver implements VerifiesService
 {
-    const DRIVER_NAME = 'VK';
+    const DRIVER_NAME = 'Vk';
 
     const API_VERSION = '5.80';
     const API_URL = 'https://api.vk.com/method/';
