@@ -166,7 +166,7 @@ class VkDriver extends HttpDriver implements VerifiesService
         $response = $this->http->post($this->buildApiUrl($this->endpoint), [], $payload);
         $this->throwExceptionIfResponseNotOk($response);
 
-        return Response::create('ok')->send();
+        return $response;
     }
 
     /**
